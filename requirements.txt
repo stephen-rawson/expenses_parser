@@ -2,7 +2,8 @@ dash
 dash_core_components
 dash_html_components
 dash_table
-numpy
+pandas
 flask
 extract_msg
-pandas
+openpyxl
+numpy

@@ -98,7 +98,7 @@ def uploaded_files(minipath="."):
 def create_output_excel(minipath):
     df, skipped = parse_message_list(uploaded_files(minipath))
     df.to_excel(os.path.join(UPLOAD_DIRECTORY, minipath, "Email_Expenses.xlsx"), index=False)
-    
+
     return df
 
 
@@ -148,7 +148,7 @@ def update_output(uploaded_filenames, uploaded_file_contents):
     other_files = [f for f in uploaded_files(minipath) if 'Email_Expenses' not in f]
     print(output_files)
     print(other_files)
-    
+
     if len(output_files) == 0:
         return [html.Li("Upload your emails then download the output here.")]
     else:
@@ -164,7 +164,7 @@ def update_output(uploaded_filenames, uploaded_file_contents):
                 if "Email_Expenses" in filename
             ]
             + [html.Hr(style={"margin_top": "25px", "margin_bottom": "25px"})]
-            + 
+            +
             [dash_table.DataTable(
                 id='table',
                 columns=[{"name": i, "id": i} for i in df.columns],
