@@ -7,6 +7,10 @@ import extract_msg
 import numpy as np
 import pandas as pd
 
+def test_string_inclusion(line, strings):
+    test = [s in line.lower() for s in strings]
+    return all(test)
+
 
 def get_weekday(date):
     mapping = dict(
@@ -99,15 +103,11 @@ def parse_bcd(body):
             price = float(
                 re.search("[0-9,.]{1,15}", content[index][-20:])[0].replace(",", "")
             )
-        if (
-            "flight" in line.lower()
-            and "vendor" in line.lower()
-            and "status" in line.lower()
-        ):
+        if test_string_inclusion(line, ["flight", "vendor", "status"]):
             departure, arrival = content[index + 1].split("\t")[1].split("-")
-        if "electronic ticket number" in line.lower():
-            ticket = content[index + 1].split(" ")[0].strip()
-        if "airline record locator" in line.lower():
+        if test_string_inclusion(line, ["electronic", "ticket", "number"]):
+            ticket = content[index + 1].replace("\t", " ").split(" ")[0].strip()
+        if test_string_inclusion(line, ["airline", "record",  "locator"]):
             record = line[-15:].split(" ")[-1].replace("\t", "").strip()
             break
     return fx, price, departure, arrival, f"{ticket} - {record}"
