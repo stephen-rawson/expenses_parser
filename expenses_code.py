@@ -128,11 +128,11 @@ def parse_body(sender, body):
 
 def classify_purpose(sender):
     if "BCD" in sender:
-        return "Travel - Flights"
+        return "* Airfare"
     elif "Deliveroo" in sender:
-        return "* Meals - Self"
+        return "* Meals Self"
     elif "Uber Travel" in sender:
-        return "* Taxi"
+        return "Taxi"
     else:
         return np.nan
 
