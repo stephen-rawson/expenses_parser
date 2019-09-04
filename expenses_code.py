@@ -94,7 +94,7 @@ def parse_uber_travel(body):
 
 
 def parse_bcd(body):
-    fx, price, departure, arrival, ticket = [""] * 5
+    fx, price, departure, arrival, ticket, record = [""] * 6
     content = [line for line in body.split("\r\n") if line not in ["", "\t"]]
 
     for index, line in enumerate(content):
@@ -104,12 +104,20 @@ def parse_bcd(body):
                 re.search("[0-9,.]{1,15}", content[index][-20:])[0].replace(",", "")
             )
         if test_string_inclusion(line, ["flight", "vendor", "status"]):
-            departure, arrival = content[index + 1].split("\t")[1].split("-")
+            if len(departure) > 1 and len(arrival) > 1:
+                pass
+            else:
+                departure, arrival = content[index + 1].split("\t")[1].split("-")
         if test_string_inclusion(line, ["electronic", "ticket", "number"]):
-            ticket = content[index + 1].replace("\t", " ").split(" ")[0].strip()
+            if len(ticket) > 1:
+                pass
+            else:
+                ticket = content[index + 1].replace("\t", " ").split(" ")[0].strip()
         if test_string_inclusion(line, ["airline", "record",  "locator"]):
-            record = line[-15:].split(" ")[-1].replace("\t", "").strip()
-            break
+            if len(record) > 1:
+                pass
+            else:
+                record = line[-15:].split(" ")[-1].replace("\t", "").strip()
     return fx, price, departure, arrival, f"{ticket} - {record}"
 
 
